@@ -7,7 +7,7 @@ import unicodedata
 import sys
 
 def normalize_text(text):
-    return unicodedata.normalize('NFKD', text.decode('latin-1')).encode('ascii', 'ignore')
+    return unicodedata.normalize('NFKD', text.decode('latin-1')).encode('utf-8', 'replace')
 
 def usage():
     print 'Usage'
@@ -16,9 +16,11 @@ def usage():
 if __name__ == "__main__":
     if len(sys.argv) == 2:
         print 'Cleaning text for ' + sys.argv[1]
-        f = open(sys.argv[1], 'r+')
+        f = open(sys.argv[1], 'r')
         data = f.read()
+        f.close()
         new_data = normalize_text(data)
+	f = open(sys.argv[1], 'wt')
         f.write(new_data)
         f.close()
         print 'Done.'
